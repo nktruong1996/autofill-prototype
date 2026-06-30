@@ -7,7 +7,6 @@ function App() {
   const [sessionId] = useState("demo-1");
   const [message, setMessage] = useState("");
   const [chatMessages, setChatMessages] = useState([]);
-  const [assistantState, setAssistantState] = useState(null);
   const [suggestedFields, setSuggestedFields] = useState({});
   const [progress, setProgress] = useState({ completed: 0, total: 3 });
   const [formData, setFormData] = useState({
@@ -46,7 +45,6 @@ function App() {
       { role: "assistant", content: data.reply },
     ]);
 
-    setAssistantState(data.assistant_state);
     setSuggestedFields(data.suggested_fields);
     setProgress(data.progress);
   }
@@ -71,7 +69,6 @@ function App() {
 
   setMessage("");
   setChatMessages([]);
-  setAssistantState(null);
   setSuggestedFields({});
   setProgress({ completed: 0, total: 3 });
   setFormData({
