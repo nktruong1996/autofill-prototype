@@ -263,57 +263,70 @@ Classify the user's latest message into exactly one category.
 Categories:
 
 FORM_FILLING
-The user is PROVIDING information that may fill the FAS form.
+The user is providing factual information that can directly answer one or more current form fields.
 
 Examples:
-- "I am unemployed."
-- "I work part time at KFC."
-- "My employer is Hard Rock Cafe."
-- "My income is not enough."
-- "I lost my job."
-- "Actually my employer is Lotteria."
-- "Actually I work full-time now."
+- "I am unemployed." -> FORM_FILLING
+- "I work part time at KFC." -> FORM_FILLING
+- "My employer is Hard Rock Cafe." -> FORM_FILLING
+- "My income is not enough." -> FORM_FILLING
+- "I support three dependants." -> FORM_FILLING
+- "Our main income source is part-time work." -> FORM_FILLING
+- "The urgent expense is school fees and transport." -> FORM_FILLING
+- "Actually my employer is Lotteria." -> FORM_FILLING
+- "Actually I work full-time now." -> FORM_FILLING
+- "Hello" -> FORM_FILLING
 
 FORM_HELP
-The user is ASKING HOW TO FILL the form or asking what a field means.
+The user is asking how to fill a form field or what a form field means.
 
 Examples:
-- "What should I write for application reason?"
-- "What type of information should I put for the reason?"
-- "What does employment status mean?"
-- "Why do you need my employer name?"
-- "Can I edit the form after applying suggestions?"
-- "What information do you still need?"
-- "What should I put here?"
-- "How does this autofill work?"
+- "What should I write for application reason?" -> FORM_HELP
+- "What type of information should I put for the reason?" -> FORM_HELP
+- "What does employment status mean?" -> FORM_HELP
+- "Why do you need my employer name?" -> FORM_HELP
+- "What should I put for monthly income?" -> FORM_HELP
+- "What should I write for urgent expense?" -> FORM_HELP
+- "Can I edit the form after applying suggestions?" -> FORM_HELP
+- "What information do you still need?" -> FORM_HELP
+- "What should I put here?" -> FORM_HELP
+- "How does this autofill work?" -> FORM_HELP
 
 FAQ_REDIRECT
-The user is asking about FAS policy, eligibility, benefits, documents, deadlines, or official scheme information.
+The user is asking about scheme policy, eligibility, benefits, required documents, deadlines, income criteria, application process, appeal process, approval timing, payment/disbursement, official rules, or what happens after submission.
 
 Examples:
-- "Am I eligible for FAS?"
-- "How much money will I get?"
-- "What documents are required?"
-- "When is the deadline?"
-- "How do I apply for FAS?"
-- "What are the income criteria?"
+- "Am I eligible for FAS?" -> FAQ_REDIRECT
+- "How much money will I get?" -> FAQ_REDIRECT
+- "What documents are required?" -> FAQ_REDIRECT
+- "When is the deadline?" -> FAQ_REDIRECT
+- "How do I apply for FAS?" -> FAQ_REDIRECT
+- "What are the income criteria?" -> FAQ_REDIRECT
+- "What documents are required for FAS and what is the deadline?" -> FAQ_REDIRECT
+- "Am I eligible for FAS and what documents are required?" -> FAQ_REDIRECT
+- "How much financial assistance will I get?" -> FAQ_REDIRECT
+- "Can I appeal if rejected?" -> FAQ_REDIRECT
+- "When will the money be paid?" -> FAQ_REDIRECT
+- "Do I need payslips or CPF statements?" -> FAQ_REDIRECT
 
 OFF_TOPIC
-The user is asking about something unrelated to FAS form filling.
+The user is asking about something unrelated to FAS form filling or FAS policy.
 
 Examples:
-- "Tell me a joke."
-- "What is the weather?"
-- "Write code for me."
-- "Recommend a movie."
+- "Tell me a joke." -> OFF_TOPIC
+- "What is the weather?" -> OFF_TOPIC
+- "Write code for me." -> OFF_TOPIC
+- "Recommend a movie." -> OFF_TOPIC
+- "Can you write a Python script for me?" -> OFF_TOPIC
 
 Rules:
 - Return JSON only.
 - Use exactly one category.
-- Questions asking HOW TO FILL a field are FORM_HELP.
-- Statements PROVIDING field information are FORM_FILLING.
-- Eligibility, benefits, documents, deadlines, and policy questions are FAQ_REDIRECT.
-- If unsure but the message may contain form information, choose FORM_FILLING.
+- If the message directly provides field-answer content, choose FORM_FILLING even if wording is imperfect.
+- If the message asks about FAS policy, eligibility, documents, deadlines, benefit amount, criteria, approval timing, appeals, payment, or official process, choose FAQ_REDIRECT.
+- If the message asks how to answer a field in the visible form, choose FORM_HELP.
+- If it is unrelated to form filling or FAS policy, choose OFF_TOPIC.
+- If genuinely unsure but the message might be conversational or harmless, choose FORM_FILLING.
 
 User message:
 {message}
