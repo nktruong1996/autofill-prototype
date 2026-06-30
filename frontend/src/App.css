@@ -4,6 +4,18 @@
   font-family: Arial, sans-serif;
 }
 
+.demo-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.demo-tabs button.active {
+  border-color: #2563eb;
+  background: #2563eb;
+  color: #fff;
+}
+
 .panel {
   border: 1px solid #ddd;
   padding: 16px;
@@ -49,7 +61,8 @@ label {
 }
 
 label input,
-label textarea {
+label textarea,
+label select {
   display: block;
   width: 100%;
   margin-top: 4px;
@@ -59,4 +72,67 @@ label textarea {
 
 textarea {
   min-height: 80px;
+}
+
+pre {
+  overflow: auto;
+  text-align: left;
+  background: #f7f7f8;
+  border: 1px solid #ececf0;
+  padding: 12px;
+  border-radius: 6px;
+}
+
+.muted {
+  color: #666;
+}
+
+.dynamic-field span {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dynamic-field em {
+  border: 1px solid #d6d6dc;
+  border-radius: 999px;
+  color: #555;
+  font-size: 12px;
+  font-style: normal;
+  line-height: 1;
+  padding: 3px 6px;
+}
+
+.dynamic-field small {
+  display: block;
+  color: #666;
+  font-weight: normal;
+  margin: 3px 0 6px;
+}
+
+.field-definition-list {
+  display: grid;
+  gap: 8px;
+}
+
+.field-definition {
+  align-items: center;
+  border: 1px solid #ececf0;
+  border-radius: 6px;
+  display: grid;
+  gap: 8px;
+  grid-template-columns: minmax(160px, 1fr) auto auto auto;
+  padding: 10px;
+  text-align: left;
+}
+
+@media (max-width: 700px) {
+  .input-row,
+  .demo-tabs {
+    flex-direction: column;
+  }
+
+  .field-definition {
+    grid-template-columns: 1fr;
+  }
 }

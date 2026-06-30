@@ -1,19 +1,19 @@
 import { useState } from "react";
 import "./App.css";
+import DynamicFasDemo from "./DynamicFasDemo";
 
-const API_URL = "http://localhost:8000";
+const API_URL = "http://localhost:8001";
 
-function App() {
+function FixedFasDemo() {
   const [sessionId] = useState("demo-1");
   const [message, setMessage] = useState("");
   const [chatMessages, setChatMessages] = useState([]);
-  const [assistantState, setAssistantState] = useState(null);
   const [suggestedFields, setSuggestedFields] = useState({});
   const [progress, setProgress] = useState({ completed: 0, total: 3 });
   const [formData, setFormData] = useState({
-  employment_status: "",
-  employer_name: "",
-  application_reason: "",
+    employment_status: "",
+    employer_name: "",
+    application_reason: "",
   });
 
   async function sendMessage() {
@@ -46,7 +46,6 @@ function App() {
       { role: "assistant", content: data.reply },
     ]);
 
-    setAssistantState(data.assistant_state);
     setSuggestedFields(data.suggested_fields);
     setProgress(data.progress);
   }
@@ -59,32 +58,29 @@ function App() {
   }
 
   async function resetConversation() {
-  await fetch(`${API_URL}/reset-session`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      session_id: sessionId,
-    }),
-  });
+    await fetch(`${API_URL}/reset-session`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        session_id: sessionId,
+      }),
+    });
 
-  setMessage("");
-  setChatMessages([]);
-  setAssistantState(null);
-  setSuggestedFields({});
-  setProgress({ completed: 0, total: 3 });
-  setFormData({
-    employment_status: "",
-    employer_name: "",
-    application_reason: "",
-  });
-}
+    setMessage("");
+    setChatMessages([]);
+    setSuggestedFields({});
+    setProgress({ completed: 0, total: 3 });
+    setFormData({
+      employment_status: "",
+      employer_name: "",
+      application_reason: "",
+    });
+  }
 
   return (
-    <div className="app">
-      <h1>FAS AI Autofill Demo</h1>
-
+    <>
       <section className="panel">
         <h2>Chat Assistant</h2>
 
@@ -165,6 +161,33 @@ function App() {
           Apply Suggestions to Form
         </button>
       </section>
+    </>
+  );
+}
+
+function App() {
+  const [activeDemo, setActiveDemo] = useState("dynamic");
+
+  return (
+    <div className="app">
+      <h1>FAS AI Autofill Demo</h1>
+
+      <div className="demo-tabs">
+        <button
+          className={activeDemo === "dynamic" ? "active" : ""}
+          onClick={() => setActiveDemo("dynamic")}
+        >
+          Dynamic Prototype
+        </button>
+        <button
+          className={activeDemo === "fixed" ? "active" : ""}
+          onClick={() => setActiveDemo("fixed")}
+        >
+          Fixed Prototype
+        </button>
+      </div>
+
+      {activeDemo === "dynamic" ? <DynamicFasDemo /> : <FixedFasDemo />}
     </div>
   );
 }
